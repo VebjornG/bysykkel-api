@@ -30,13 +30,7 @@ def fetch_station_info() -> List[Station]:
         stations = data["data"]["stations"]
         # return a dictionary with station_id as key and Station as value
         # The ** operator is used to unpack the dictionary and pass it as keyword arguments
-        station_dict = {}
-        for station in stations:
-            # create a StationStatus object
-            station = Station(**station)
-            # add the station to the dictionary with station_id as key
-            station_dict[station['station_id']] = station
-        return station_dict
+        return [Station(**station) for station in stations]
     else:
         raise HTTPException(
             status_code=500, detail="Failed to fetch station information"
@@ -52,13 +46,7 @@ def fetch_station_status() -> Dict[str, StationStatus]:
         # get the list of stations
         statuses = data["data"]["stations"]
         # return a dictionary with station_id as key and StationStatus as value
-        status_dict = {}
-        for status in statuses:
-            # create a StationStatus object
-            station_status = StationStatus(**status)
-            # add the status to the dictionary with station_id as key
-            status_dict[status["station_id"]] = station_status
-        return status_dict
+        return {status["station_id"]: StationStatus(**status) for status in statuses}
     else:
         raise HTTPException(
             status_code=500, detail="Failed to fetch station information"
@@ -104,6 +92,8 @@ def get_stations():
                     **station.model_dump(), **status.model_dump()
                 )
                 stations_with_status.append(station_with_status)
+            else:
+                raise HTTPException(status_code=404, detail="Station status not found")
         return stations_with_status
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -132,6 +122,6 @@ def get_station_name(name: str):
                 )
                 return station_with_status
             else:
-                raise HTTPException(status_code=404, detail="Station status not found")
+                raise HTTPException(status_code=404, detail=f"Station status with name '{name}' not found")
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
