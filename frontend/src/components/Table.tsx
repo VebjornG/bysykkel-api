@@ -1,12 +1,7 @@
 import { useState, useEffect } from 'react';
-// import  { 
-//   fetchStationData, 
-//   fetchBikeAvailability, 
-// } from '../services/bySykkelApi';
 import { fetchStations, StationWithAvailability } from '../services/bySykkelApi';
 import { Table, Skeleton, Empty } from 'antd';
 import styled from 'styled-components';
-// import { mergeStationData, StationWithAvailability } from '../scripts/mergeStationData';
 
 
 export const BySykkelTable = () => {
@@ -21,23 +16,8 @@ export const BySykkelTable = () => {
   useEffect(() => {
     const getStations = async () => {
       try {
-        
-        // // Fetch both station information and bike availability concurrently
-        // const [stationInfo, stationStatus] = await Promise.all([
-        //   fetchStationData(),
-        //   fetchBikeAvailability(),
-        // ]);
-
-        // // Merge the two datasets
-        // const mergedStations = mergeStationData(stationInfo, stationStatus);
-
-        
-        // setStations(mergedStations);
-
         const data = await fetchStations();
         setStations(data);
-
-
       } catch (error) {
         console.error('Error fetching stations:', error);
         setNoData(true);
@@ -79,11 +59,11 @@ export const BySykkelTable = () => {
       title: 'Last Reported',
       dataIndex: 'last_reported',
       key: 'last_reported',
-      render: (timestamp: number) => new Date(timestamp * 1000).toLocaleString(),
+      render: (timestamp: number) => new Date(timestamp * 1000).toLocaleString(), // Convert timestamp to date string 
     },
   ];
   
-
+  // If there is no data, display an empty state
   if (noData) {
     return <Empty />;
   }
