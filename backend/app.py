@@ -33,7 +33,8 @@ def fetch_station_info() -> List[Station]:
             status_code=500, detail="Failed to fetch station information"
         )
 
-# this returns a dictionary with station_id as key and StationStatus as value because we need to look up the status of a station by its id
+# this returns a dictionary with station_id as key and StationStatus as value 
+# because we need to look up the status of a station by its id
 def fetch_station_status() -> Dict[str, StationStatus]:
     response = requests.get(STATION_STATUS_URL)
 
@@ -43,7 +44,13 @@ def fetch_station_status() -> Dict[str, StationStatus]:
         statuses = data["data"]["stations"]
         # return a dictionary with station_id as key and StationStatus as value
         # The ** operator is used to unpack the dictionary and pass it as keyword arguments
-        return {status["station_id"]: StationStatus(**status) for status in statuses}
+        status_dict = {}
+        for status in statuses:
+            # create a StationStatus object
+            station_status = StationStatus(**status)
+            # add the status to the dictionary with station_id as key
+            status_dict[status["station_id"]] = station_status
+        return status_dict
     else:
         raise HTTPException(
             status_code=500, detail="Failed to fetch station information"

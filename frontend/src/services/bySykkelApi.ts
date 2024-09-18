@@ -14,10 +14,10 @@ export interface StationWithAvailability {
   last_reported: number;
 }
 
-// Function to fetch station data from your own REST API
+// Function to fetch station data from my own REST API
 export const fetchStations = async (): Promise<StationWithAvailability[]> => {
   try {
-    // Fetch the merged station data from your own REST API
+    // Fetch the merged station data
     const response = await fetch('http://127.0.0.1:8000/stations');
 
     // Check if the response is OK; if not, throw an error
