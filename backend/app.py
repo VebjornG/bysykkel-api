@@ -28,7 +28,7 @@ def fetch_station_info() -> List[Station]:
         data = response.json()
         # get the list of stations
         stations = data["data"]["stations"]
-        # return a dictionary with station_id as key and Station as value
+        # return a list Pydantic Station objects
         # The ** operator is used to unpack the dictionary and pass it as keyword arguments
         return [Station(**station) for station in stations]
     else:
