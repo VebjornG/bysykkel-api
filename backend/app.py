@@ -127,7 +127,7 @@ def get_station_name(name: str):
         if station:
             status = statuses.get(station.station_id)
             if status:
-                station_with_status = station_with_status = StationWithStatus(
+                station_with_status = StationWithStatus(
                     **station.model_dump(), **status.model_dump()
                 )
                 return station_with_status
