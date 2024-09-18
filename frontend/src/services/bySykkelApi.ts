@@ -94,8 +94,6 @@ export const uploadStations = async (stations: Station[]) => {
       throw new Error(`Failed to upload stations: ${response.statusText}`);
     }
 
-    const data = await response.json();
-    console.log(data.message);
   } catch (error) {
     console.error(`Error uploading stations: ${error}`);
   }
@@ -111,11 +109,10 @@ export const uploadStationStatuses = async (statuses: StationStatus[]) => {
       },
       body: JSON.stringify(statuses) // Convert the statuses to a JSON string
     });
+    
     if (!response.ok) {
       throw new Error(`Failed to upload station statuses: ${response.statusText}`);
     }
-    const data = await response.json();
-    console.log(data.message);
   } catch (error) {
     console.error(`Error uploading station statuses: ${error}`);
   }

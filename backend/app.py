@@ -52,15 +52,17 @@ def fetch_station_status() -> Dict[str, StationStatus]:
             status_code=500, detail="Failed to fetch station information"
         )
 
+stations_data: List[Station] = []
+station_status_data: List[StationStatus] = []
+
 # store the stations data in memory
 @app.post("/upload_stations")
 def upload_stations(stations: List[Station]):
     try:
-        # global keyword is used to modify a global variable inside a function
         global stations_data
         # store the stations data in memory
         stations_data = stations
-        return {"message": "Stations data received"}
+        return {"stations_data": stations}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -71,7 +73,8 @@ def upload_station_status(statuses: List[StationStatus]):
         global station_status_data
         # store the station status data in memory
         station_status_data = statuses
-        return {"message": "Station statuses received"}
+        print(station_status_data)
+        return {"station_status_data": statuses}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
