@@ -54,7 +54,7 @@ export const BySykkelTable = () => {
         setStations(stationData);
         setStationStatuses(stationStatuses);
 
-        // Upload data to your backend
+        // Upload data to the backend
         await uploadStations(stationData);
         await uploadStationStatuses(stationStatuses);
       } catch (error) {
