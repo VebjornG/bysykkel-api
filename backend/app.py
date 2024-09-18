@@ -56,6 +56,19 @@ def fetch_station_status() -> Dict[str, StationStatus]:
             status_code=500, detail="Failed to fetch station information"
         )
 
+# store the stations data in memory
+@app.post("/upload_stations")
+def upload_stations(stations: List[Station]):
+    global stations_data
+    stations_data = stations
+    return {"message": "Stations data received"}
+
+# store the station status data in memory
+@app.post("/upload_station_status")
+def upload_station_status(statuses: List[StationStatus]):
+    global station_status_data
+    station_status_data = statuses
+    return {"message": "Station statuses received"}
 
 # endpoint to get all the stations with status
 @app.get("/stations", response_model=List[StationWithStatus])
